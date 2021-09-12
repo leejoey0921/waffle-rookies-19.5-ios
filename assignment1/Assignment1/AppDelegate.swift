@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Assignment1
+//  assignment1
 //
-//  Created by Joey Lee on 2021/09/10.
+//  Created by Joey Lee on 2021/09/12.
 //
 
 import UIKit
