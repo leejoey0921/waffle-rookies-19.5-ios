@@ -34,22 +34,41 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yvn-6w-1RQ">
-                                                    <rect key="frame" x="308" y="7" width="47" height="30"/>
-                                                    <state key="normal" title="Toggle"/>
+                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aAB-qJ-6pV" customClass="BEMCheckBox" customModule="BEMCheckBox">
+                                                    <rect key="frame" x="313" y="3" width="33" height="38"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="on" value="NO"/>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="onTintColor">
+                                                            <color key="value" systemColor="systemBlueColor"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="onFillColor">
+                                                            <color key="value" systemColor="systemBackgroundColor"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="onCheckColor">
+                                                            <color key="value" systemColor="systemBlueColor"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="offFillColor">
+                                                            <color key="value" systemColor="systemBackgroundColor"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                                            <real key="value" value="2"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="taskCompleted:" destination="Huk-Ue-76y" eventType="touchUpInside" id="Ewv-yC-HDl"/>
+                                                        <action selector="Checkbox:" destination="Huk-Ue-76y" eventType="valueChanged" id="5bq-St-yGg"/>
                                                     </connections>
-                                                </button>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Z0W-aQ-j8U" firstAttribute="leading" secondItem="xle-4N-AGN" secondAttribute="leading" constant="35" id="BQk-B0-cxF"/>
+                                                <constraint firstItem="aAB-qJ-6pV" firstAttribute="centerY" secondItem="xle-4N-AGN" secondAttribute="centerY" id="F6K-gS-PqO"/>
                                                 <constraint firstItem="Z0W-aQ-j8U" firstAttribute="centerY" secondItem="xle-4N-AGN" secondAttribute="centerY" id="GBS-Sr-XSG"/>
-                                                <constraint firstAttribute="trailing" secondItem="Yvn-6w-1RQ" secondAttribute="trailing" constant="35" id="Mwy-5K-7D5"/>
-                                                <constraint firstItem="Yvn-6w-1RQ" firstAttribute="centerY" secondItem="xle-4N-AGN" secondAttribute="centerY" id="Q39-D0-I6R"/>
+                                                <constraint firstAttribute="trailing" secondItem="aAB-qJ-6pV" secondAttribute="trailing" constant="30" id="kYx-l2-t3B"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="CheckboxItem" destination="aAB-qJ-6pV" id="a4x-Dg-9hW"/>
                                             <outlet property="label" destination="Z0W-aQ-j8U" id="Tay-Gn-smo"/>
                                         </connections>
                                     </tableViewCell>
@@ -90,7 +109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1044.3925233644859" y="76.45788336933046"/>
+            <point key="canvasLocation" x="1043.0769230769231" y="76.066350710900466"/>
         </scene>
         <!--Second View Controller-->
         <scene sceneID="xlt-ae-Cyx">
@@ -153,9 +172,17 @@
             <point key="canvasLocation" x="137.68115942028987" y="78.348214285714278"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="aAB-qJ-6pV">
+            <size key="intrinsicContentSize" width="54" height="55"/>
+        </designable>
+    </designables>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

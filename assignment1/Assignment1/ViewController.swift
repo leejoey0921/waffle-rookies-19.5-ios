@@ -4,7 +4,7 @@
 //
 //  Created by Joey Lee on 2021/09/10.
 //
-
+import BEMCheckBox
 import UIKit
 
 class ViewController: UIViewController {
@@ -93,10 +93,15 @@ extension ViewController: UITableViewDataSource {
         
         // set label color
         if tasks[index].completed {
+            cell.CheckboxItem.on = true
             cell.label.textColor = .gray
         } else {
+            cell.CheckboxItem.on = false
+
             cell.label.textColor = .black
         }
+        
+        
         
         return cell
     }
@@ -125,11 +130,12 @@ class TaskCell: UITableViewCell {
     
     @IBOutlet weak var label: UILabel!
     
-    @IBAction func taskCompleted(_ sender: UIButton) {
+    @IBAction func Checkbox(_ sender: Any) {
         toggleCompleted(index) // edit UserDefaults data
-        toggleLabelColor() // toggle label color
+        toggleLabelColor()
     }
     
+    @IBOutlet weak var CheckboxItem: BEMCheckBox!
     
     // toggle label color
     func toggleLabelColor() {
