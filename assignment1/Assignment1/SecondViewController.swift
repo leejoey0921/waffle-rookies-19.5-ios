@@ -8,28 +8,49 @@
 import UIKit
 
 class SecondViewController: UIViewController {
-
+    var editRow: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.textfield.delegate = self
+        
+        if editRow == nil {
+            // navigated from moveToAdd
+            addOrEditButton.setTitle("Add Item", for: .normal)
+        } else {
+            // navigated from moveToEdit
+            addOrEditButton.setTitle("Rename", for: .normal)
+        }
     }
 
     
     @IBOutlet weak var textfield: UITextField!
+    @IBOutlet weak var addOrEditButton: UIButton!
     
-    @IBAction func addTask(_ sender: UIButton) {
-        guard let taskname = textfield.text else { return }
-        guard taskname.count >= 1 else {
+    
+    @IBAction func addOrEdit(_ sender: UIButton) {
+        guard let taskName = textfield.text else { return }
+        guard taskName.count >= 1 else {
             let alert = UIAlertController(title: "Warning", message: "You must enter a name for your task", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .destructive, handler : nil)
             alert.addAction(defaultAction)
             present(alert, animated: false, completion: nil)
             return
         }
-        
-
-        let newTask = Task(taskName: taskname)
+        if editRow == nil {
+            // add task
+            addTask(taskName: taskName)
+        } else {
+            // edit task
+            let atRow: Int! = editRow
+            editTask(taskName: taskName, atRow: atRow)
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // add task with name 'taskName'
+    func addTask(taskName: String) {
+        let newTask = Task(taskName: taskName)
 
         var tempTasks: [Task] = [Task]()
         
@@ -37,21 +58,26 @@ class SecondViewController: UIViewController {
         tempTasks.append(newTask)
         UserDefaults.standard.removeObject(forKey: "tasks")
         saveTasks(tempTasks)
-        guard let controller = storyboard?.instantiateViewController(identifier: "mainViewController") as? ViewController else { return }
-        navigationController?.pushViewController(controller, animated: true)
-    }
-    
-    
-    
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
-    */
+    // change name to 'taskName' at row 'atRow'
+    func editTask(taskName: String, atRow: Int) {
+        let newTask = Task(taskName: taskName)
 
+        var tempTasks: [Task] = [Task]()
+        
+        tempTasks = loadTasks()
+        tempTasks[atRow] = newTask
+        UserDefaults.standard.removeObject(forKey: "tasks")
+        saveTasks(tempTasks)
+    }
+
+}
+
+extension SecondViewController: UITextFieldDelegate {
+    // press return key to push keyboard down
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
