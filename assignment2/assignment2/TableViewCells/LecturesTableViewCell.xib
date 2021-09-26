@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="lecturesTableViewCell" id="KGk-i7-Jjw" customClass="LecturesTableViewCell" customModule="assignment2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RRv-Je-KX9">
+                        <rect key="frame" x="287" y="11" width="13" height="22"/>
+                        <state key="normal" image="chevron.right" catalog="system"/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m85-rq-WvP">
+                        <rect key="frame" x="225" y="11.5" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eUk-f3-Qy1">
+                        <rect key="frame" x="20" y="11.5" width="41.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="RRv-Je-KX9" firstAttribute="leading" secondItem="m85-rq-WvP" secondAttribute="trailing" constant="20" id="4RD-Xt-jRi"/>
+                    <constraint firstAttribute="trailing" secondItem="RRv-Je-KX9" secondAttribute="trailing" constant="20" id="62E-zh-PQn"/>
+                    <constraint firstItem="RRv-Je-KX9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Va9-me-Pgy"/>
+                    <constraint firstItem="m85-rq-WvP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="n03-gu-hIn"/>
+                    <constraint firstItem="eUk-f3-Qy1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="rkI-d2-7Ej"/>
+                    <constraint firstItem="eUk-f3-Qy1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zhh-Yn-S0A"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="arrow" destination="RRv-Je-KX9" id="1cu-5I-ge6"/>
+                <outlet property="credit" destination="m85-rq-WvP" id="4yc-VZ-Fh9"/>
+                <outlet property="name" destination="eUk-f3-Qy1" id="c3b-fO-8W9"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
