@@ -37,36 +37,48 @@ struct Lecture: Codable {
     var department: String
 }
 
+enum NetworkError {
+    case authError
+    case serverError
+    case parsingError
+    
+    func getMessage() -> String {
+        switch self {
+        case .authError: return "권한이 없습니다."
+        case .serverError: return "서버에 문제가 발생했습니다"
+        case .parsingError: return "데이터 처리가 잘못됐습니다"
+        }
+    }
+}
+
 let baseUrl = "https://jkhi75xm0a.execute-api.ap-northeast-2.amazonaws.com/waffle/"
 let memberUrl = baseUrl + "/members/"
 
 struct WaffleNetwork {
-    static func request(with urlString: String, done: @escaping ([Member]) -> (), failure: @escaping () -> ()) {
+    // API call to get list of members
+    static func requestMembers(with urlString: String, done: @escaping ([Member]) -> (), failure: @escaping (NetworkError) -> ()) {
         if let url = URL(string: urlString) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
                 if let response = response as? HTTPURLResponse {
                     if response.statusCode == 403 {
-                        failure()
+                        failure(.authError)
                         return
                     }
                 }
                 
-                if let error = error {
-                    print(error)
-                    failure()
+                if error != nil {
+                    failure(.serverError)
                     return
                 }
                 
                 guard let data = data else {
-                    print("야야야")
-                    failure()
+                    failure(.serverError)
                     return
                 }
                 
                 guard let memberList = memberListParser(data) else {
-                    print("야야야야")
-                    failure()
+                    failure(.parsingError)
                     return
                 }
                 
@@ -78,32 +90,30 @@ struct WaffleNetwork {
         
     }
     
-    static func requestProfile(with urlString: String, done: @escaping (Member) -> (), failure: @escaping () -> ()) {
+    // API call to get certain profile data
+    static func requestProfile(with urlString: String, done: @escaping (Member) -> (), failure: @escaping (NetworkError) -> ()) {
         if let url = URL(string: urlString) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
                 if let response = response as? HTTPURLResponse {
                     if response.statusCode == 403 {
-                        failure()
+                        failure(.authError)
                         return
                     }
                 }
                 
-                if let error = error {
-                    print(error)
-                    failure()
+                if error != nil {
+                    failure(.serverError)
                     return
                 }
                 
                 guard let data = data else {
-                    print("야야야")
-                    failure()
+                    failure(.serverError)
                     return
                 }
                 
                 guard let memberProfile = memberProfileParser(data) else {
-                    print("야야야야")
-                    failure()
+                    failure(.parsingError)
                     return
                 }
                 
@@ -114,6 +124,7 @@ struct WaffleNetwork {
         }
     }
     
+    // parse list of members
     static func memberListParser(_ memberListData: Data) -> [Member]? {
         let decoder = JSONDecoder()
         do {
@@ -121,27 +132,21 @@ struct WaffleNetwork {
             
             return decodedData.body
             
-        } catch let error {
-            print("error", error)
+        } catch _ {
             return nil
         }
     }
     
+    // parse member profile
     static func memberProfileParser(_ memberProfileData: Data) -> Member? {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(MemberProfileResponseData.self, from: memberProfileData)
             
             return decodedData.body
-        } catch let error {
-            print("error", error)
+        } catch _ {
             return nil
         }
     }
 }
 
-//WaffleNetwork.request(with: memberUrl) { (memberList) in
-//    print(memberList)
-//} failure: {
-//    print("error")
-//}

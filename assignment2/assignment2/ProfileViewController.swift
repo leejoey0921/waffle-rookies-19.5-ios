@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var profileTeam: UILabel!
     @IBOutlet weak var profileLecturesTableView: UITableView!
-    //    let profileURL: String = memberUrl + "\(self.profileId)"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,26 +21,15 @@ class ProfileViewController: UIViewController {
         profileLecturesTableView.dataSource = self
         let nib = UINib(nibName: "LecturesTableViewCell", bundle: nil)
         profileLecturesTableView.register(nib, forCellReuseIdentifier: "lecturesTableViewCell")
-        
-//        guard let id: Int = profileId else { return }
-//        let profileUrl = memberUrl + "\(id)"
-//        WaffleNetwork.requestProfile(with: profileUrl) { (member) in
-//            self.profileMember = member
-//            print(self.profileMember)
-//        } failure: {
-//            print("error")
-//        }
 
-
-        
+        // profileImage 동그랗게 만들기
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.height/2
         self.profileImageView.layer.borderWidth = 1
         self.profileImageView.layer.borderColor = UIColor.clear.cgColor
         self.profileImageView.clipsToBounds = true
         
         setProfileMember()
-//        setProfileImageView()
-        // Do any additional setup after loading the view.
+
     }
     
     private func setProfileMember() {
@@ -49,15 +37,24 @@ class ProfileViewController: UIViewController {
         let profileUrl = memberUrl + "\(id)"
         WaffleNetwork.requestProfile(with: profileUrl) { (member) in
             self.profileMember = member
+            
+            // request가 완료될 때까지 기다리게끔하는 방법을 못 찾아서 viewDidLoad에 넣는 대신 여기에 우겨넣었습니다...
             self.setProfileImageView()
             DispatchQueue.main.async {
+                self.profileName.text = member.name
+                self.profileTeam.text = member.team
                 self.profileLecturesTableView.reloadData()
             }
-        } failure: {
-            print("error")
+        } failure: { NetworkError in
+            let alert = UIAlertController(title: "Error", message: (NetworkError).getMessage(), preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .destructive, handler : nil)
+            alert.addAction(defaultAction)
+            self.present(alert, animated: false, completion: nil)
+            return
         }
     }
     
+    // set profile image
     private func setProfileImageView() {
         var data: Data?
         guard let member: Member = self.profileMember else { print("fuck!"); return }
@@ -67,10 +64,12 @@ class ProfileViewController: UIViewController {
         }
         catch { print("oops") }
         DispatchQueue.main.async {
+            
             self.profileImageView.image = UIImage(data: data!)
         }
     }
     
+    // 다음 뷰로 넘어가기
     func moveToLecture(lecture: Lecture) {
         guard let controller = storyboard?.instantiateViewController(identifier: "lectureViewController") as? LectureViewController else { return }
         controller.lecture = lecture
@@ -79,6 +78,7 @@ class ProfileViewController: UIViewController {
            
     }
 }
+
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,6 +98,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         if let lecture = profileMember?.lectures?[indexPath.row] {
             moveToLecture(lecture: lecture)
         }
