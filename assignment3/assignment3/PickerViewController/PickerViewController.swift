@@ -8,7 +8,7 @@
 import UIKit
 
 class PickerViewController: UIViewController{
-    let seminars = ["Android", "iOS", "React", "Django", "Springboot"]
+    let seminars = ["iOS", "Android", "Frontend", "Django", "Spring Boot"]
     
     var selectedSeminarIndex: Int?
     
@@ -20,7 +20,9 @@ class PickerViewController: UIViewController{
         super.viewDidLoad()
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
-        // Do any additional setup after loading the view.
+        
+        let index = selectedSeminarIndex ?? 0
+        self.pickerView.selectRow(index, inComponent: 0, animated: false) // 전에 골랐던 세미나로 뜨게 설정
     }
 
     @IBAction func selectSeminar(_ sender: UIButton) {
@@ -61,6 +63,7 @@ extension PickerViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedSeminarIndex = row
     }
+    
     
 }
 
